@@ -1,0 +1,31 @@
+---
+title: Estate Data
+date: today
+---
+
+## Estate Data
+
+-   [Data]()
+
+-   Data Source: 
+
+-   Description: Data on 522 home sales in a Midwestern city during the year 2002.
+
+- Variables: The 13 variables are
+
+  -   `Price`: Sales price of residence (in dollars)
+  -   `Area`: Finished area of residence (in square feet)
+  -   `Bed`: Total number of bedrooms in residence
+  -   `Bath`: Total number of bathrooms in residence
+  -   `AC`: 1 = presence of air conditioning, 0 = absence of air conditioning
+  -   `Garage`: Number of cars that a garage will hold
+  -   `Pool`: 1 = presence of a pool, 0 = absence of a pool
+  -   `Year`: Year property was originally constructed
+  -   `Quality`: Index for quality of construction. `High`, `Medium`, or `Low`.
+  -   `Style`: Categorical variable indicating architectural style
+  -   `Lot`: Lot size (in square feet)
+  -   `Highway`: 1 = highway adjacent, 0 = highway not adjacent.
+
+-   Records: 522
+
+-   Download Link: <https://raw.githubusercontent.com/AU-datascience/data/main/413-613/estate.csv>
