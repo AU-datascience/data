@@ -7,7 +7,8 @@ date: today
 
 -   [Data]()
 
--   Data Source: 
+-   Data Source: Applied Linear Statistical Models 5th edition, Authors: Michael H. Kutner, Chris J. Nachtsheim, William LiJohn Neter. McGraw Hill, 2004, ISBN: 0072386886
+
 
 -   Description: Data on 522 home sales in a Midwestern city during the year 2002.
 
