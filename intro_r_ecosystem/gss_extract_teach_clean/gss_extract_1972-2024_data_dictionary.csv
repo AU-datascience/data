@@ -1,0 +1,42 @@
+variable,original_variable,description,type,factor_levels,first_year_asked,last_year_asked,n_years_asked
+age,age,age of respondent,numeric,NA,1972,2024,35
+age_first_married,agewed,age when first married,numeric,NA,1972,2006,21
+ancestry_country_code,ethnic,country of family origin,numeric,NA,1972,2024,35
+degree_level,degree,r's highest degree,numeric,NA,1972,2024,35
+education_years,educ,highest year of school completed,numeric,NA,1972,2024,35
+hours_worked_per_week,hrs2,number of hours usually work a week,numeric,NA,1973,2024,34
+military_service_years,vetyears,years in armed forces,numeric,NA,1974,2024,22
+place_size_thousands,size,size of place in 1000s,numeric,NA,1972,2022,34
+respondent_id,id,respondent id number,numeric,NA,1972,2024,35
+survey_year,year,gss year for this respondent,numeric,NA,1972,2024,35
+vocab_test_score,wordsum,number words correct in vocabulary test,numeric,NA,1974,2024,25
+ancestry_iso2,ancestry_iso2,ISO 3166-1 alpha-2 country code for ancestry_country_name (blank for aggregate/historical categories with no single valid code),character,NA,1972,2024,35
+ancestry_iso3,ancestry_iso3,ISO 3166-1 alpha-3 country code for ancestry_country_name (blank for aggregate/historical categories with no single valid code),character,NA,1972,2024,35
+agreement_govt_responsibility,equal4,responsibility of govt to meet needs,factor,strongly agree; somewhat agree; somewhat disagree; strongly disagree,1984,1984,1
+agreement_welfare_disincentive,equal5,social welfare benefits are disincentive,factor,strongly agree; somewhat agree; somewhat disagree; strongly disagree,1984,1984,1
+ancestry_country_name,ancestry_country_name,"country of family origin (country name, derived from ethnic)",factor,africa (general); austria; french canada; other canada; china; czechoslovakia; denmark; england and wales; finland; france; germany; greece; hungary; ireland; italy; japan; mexico; netherlands; norway; philippines; poland; puerto rico; russia; scotland; spain; sweden; switzerland; american indian; india; portugal; lithuania; yugoslavia; romania; belgium; other asian; other european; turkey; algeria; congo; egypt; ethiopia; kenya; nigeria; south africa; sudan; tanzania; uganda; other africa; south korea; bangladesh; indonesia; pakistan; thailand; vietnam; iran; iraq; israel; jordan; united arab emirates; yemen; other middle east; argentina; bolivia; brazil; chile; colombia; ecuador; french guiana; guyana; peru; uruguay; venezuela; other south america; belize; costa rica; el salvador; guatemala; honduras; nicaragua; panama; other central america; other north america; cuba; haiti; dominican republic; jamaica; other caribbean; australia; samoa; other oceania,1972,2024,35
+ancestry_region,ancestry_region,"country of family origin, collapsed to 14 world regions (derived from ethnic)",factor,africa; western_europe; north_america_other; east_southeast_asia_pacific; eastern_europe; northern_europe; british_isles; southern_europe; mexico_central_america; caribbean; american_indian; south_asia; middle_east_north_africa; south_america,1972,2024,35
+any_unemployed_last_10yrs,unemp,ever unemployed in last ten yrs,factor,yes; no,1973,2024,31
+family_income_bracket,income,total family income,factor,"under $1,000; $1,000 to $2,999; $3,000 to $3,999; $4,000 to $4,999; $5,000 to $5,999; $6,000 to $6,999; $7,000 to $7,999; $8,000 to $9,999; $10,000 to $14,999; $15,000 to $19,999; $20,000 to $24,999; $25,000 or more",1973,2024,34
+happiness_general,happy,general happiness,factor,very happy; pretty happy; not too happy,1972,2024,35
+happiness_marriage,hapmar,happiness of marriage,factor,very happy; pretty happy; not too happy,1973,2024,34
+health_status,health,condition of health,factor,excellent; good; fair; poor,1972,2024,32
+interview_region,region,region of interview,factor,northeast; midwest; south; west,1972,2024,35
+marital_status,marital,marital status,factor,married; widowed; divorced; separated; never married,1972,2024,35
+race,race,race of respondent,factor,white; black; other,1972,2024,35
+received_govt_aid,govaid,"ever receive welfare, unemp insur, etc.",factor,yes; no,1973,1983,8
+religion,relig,r's religious preference,factor,protestant; catholic; jewish; none; other; buddhism; hinduism; other eastern religions; muslim/islam; orthodox-christian; christian; native american; inter-nondenominational,1972,2024,35
+religion_intensity,reliten,strength of affiliation,factor,strong; not very strong; somewhat strong (vol.); no religion,1974,2024,32
+respondent_income_bracket,rincome,respondents income,factor,"under $1,000; $1,000 to $2,999; $3,000 to $3,999; $4,000 to $4,999; $5,000 to $5,999; $6,000 to $6,999; $7,000 to $7,999; $8,000 to $9,999; $10,000 to $14,999; $15,000 to $19,999; $20,000 to $24,999; $25,000 or more",1974,2024,33
+sex,sex,respondents sex,factor,male; female,1972,2024,35
+teacher_allow_atheist,colath,allow anti-religionist to teach,factor,"yes, allowed to teach; not allowed",1972,2024,31
+teacher_allow_gay,colhomo,allow homosexual to teach,factor,"yes, allowed to teach; not allowed",1973,2021,28
+teacher_allow_militarist,colmil,allow militarist to teach,factor,"yes, allowed to teach; not allowed",1976,2021,26
+teacher_allow_muslim_clergy,colmslm,allow anti-american muslim clergymen teaching in college,factor,"yes, allowed to teach; not allowed",2008,2024,9
+teacher_allow_racist,colrac,allow racist to teach,factor,"yes, allowed to teach; not allowed",1976,2024,28
+teacher_allow_socialist,colsoc,allow socialist to teach,factor,allowed; not allowed,1972,1974,3
+teacher_fire_communist,colcom,should communist teacher be fired,factor,"yes, fired; not fired",1972,2024,31
+union_membership,union,does r or spouse belong to union,factor,"yes, respondent belongs; yes, spouse belongs; yes, both belong; no, neither belong",1973,2024,31
+us_citizen,uscitzn,"if not born in us, is r a us citizen",factor,a u.s. citizen; not a u.s. citizen,2008,2024,9
+work_status,wrkstat,labor force status,factor,"working full time; working part time; with a job, but not at work because of temporary illness, vacation, strike; unemployed, laid off, looking for work; retired; in school; keeping house; other",1972,2024,35
+zodiac_sign,zodiac,respondents astrological sign,factor,aries; taurus; gemini; cancer; leo; virgo; libra; scorpio; sagittarius; capricorn; aquarius; pisces,1976,2022,30
