@@ -1,0 +1,317 @@
+---
+title: "student_sample"
+format: html
+---
+
+```{r}
+library(tidyverse)
+
+gss_url <- "https://raw.githubusercontent.com/AU-datascience/data/main/intro_r_ecosystem/gss_extract_teach_clean/gss_extract_1972-2024_tidy.csv"
+
+gss <- read_csv(gss_url)
+
+glimpse(gss)
+```
+
+```{r}
+gss_clean <- gss |>
+  mutate(
+    decade = (survey_year %/% 10) * 10,
+    degree_level = factor(degree_level,
+      levels = 0:4,
+      labels = c("< high school", "high school", "junior college",
+                 "bachelor's", "graduate")),
+    teacher_allow_gay = as.factor(teacher_allow_gay),
+      #levels = c("not allowed", "allowed")),
+      teacher_allow_racist = as.factor(teacher_allow_racist),
+     # levels = c("not allowed", "allowed")),
+       teacher_allow_atheist = as.factor(teacher_allow_atheist),
+     # levels = c("not allowed", "allowed"))
+  ) #|>
+ # drop_na(teacher_allow_gay, teacher_allow_atheist,  teacher_allow_racist)
+
+summary(gss_clean)
+```
+
+
+```{r}
+gss_clean |> 
+  drop_na(degree_level, decade, teacher_allow_gay) |> 
+ggplot( aes(x = decade, fill = teacher_allow_gay)) +
+  geom_bar(position = "fill") +
+  facet_wrap(~ degree_level, scales = "free") +
+#  coord_flip() +
+  labs(y = "Share of respondents", x = NULL,
+       title = "Should a gay person be allowed to teach college?",
+       subtitle = "By respondent's education level and decade")
+```
+
+```{r}
+gss_clean |> 
+  drop_na(degree_level, decade, teacher_allow_racist) |> 
+ggplot( aes(x = decade, fill = teacher_allow_racist)) +
+  geom_bar(position = "fill") +
+  facet_wrap(~ degree_level, scales = "free") +
+  #coord_flip() +
+  labs(y = "Share of respondents", x = NULL,
+       title = "Should a racist person be allowed to teach college?",
+       subtitle = "By respondent's education level and decade")
+```
+
+
+```{r}
+gss_clean |> 
+  drop_na(degree_level, decade, teacher_allow_atheist) |> 
+ggplot( aes(x = decade, fill = teacher_allow_atheist)) +
+  geom_bar(position = "fill") +
+  facet_wrap(~ degree_level, scales = "free") +
+ # coord_flip() +
+  labs(y = "Share of respondents", x = NULL,
+       title = "Should an atheist person be allowed to teach college?",
+       subtitle = "By respondent's education level and decade")
+```
+
+
+
+
+```{r}
+library(dplyr)
+library(tidyr)
+
+teacher_long <- gss_clean |>
+  select(
+    degree_level, decade,
+    teacher_allow_gay,
+    teacher_allow_racist,
+    teacher_allow_atheist
+  ) |>
+  pivot_longer(
+    starts_with("teacher_allow_"),
+    names_to = "group",
+    values_to = "response"
+  ) |>
+  drop_na(degree_level, decade, response) |>
+  mutate(
+    allowed = response == "yes, allowed to teach",
+    decade = factor(decade),
+    degree_level = factor(degree_level)
+  )
+```
+
+```{r}
+gay_data <- teacher_long |>
+  filter(group == "teacher_allow_gay")
+
+gay_main <- glm(
+  allowed ~ degree_level + decade,
+  data = gay_data,
+  family = binomial()
+)
+
+drop1(gay_main, test = "Chisq")
+```
+
+```{r}
+gay_interaction <- glm(
+  allowed ~ degree_level * decade,
+  data = gay_data,
+  family = binomial()
+)
+
+anova(gay_main, gay_interaction, test = "Chisq")
+```
+
+```{r}
+library(emmeans)
+
+emmeans(gay_interaction, ~ degree_level | decade, type = "response")
+```
+
+```{r}
+support_by_group <- gss_clean |>
+  select(
+    decade,
+    teacher_allow_gay,
+    teacher_allow_atheist,
+    teacher_allow_racist
+  ) |>
+  pivot_longer(
+    starts_with("teacher_allow_"),
+    names_to = "group",
+    values_to = "response"
+  ) |>
+  drop_na(decade, response) |>
+  mutate(
+    group = recode(
+      group,
+      teacher_allow_gay = "Gay person",
+      teacher_allow_atheist = "Atheist",
+      teacher_allow_racist = "Racist"
+    ),
+    allowed = response == "yes, allowed to teach"
+  ) |>
+  group_by(decade, group) |>
+  summarise(
+    support = mean(allowed),
+    n = n(),
+    .groups = "drop"
+  )
+
+ggplot(
+  support_by_group,
+  aes(x = decade, y = support, colour = group)
+) +
+  geom_line(linewidth = 1.2) +
+  geom_point(size = 2.8) +
+  scale_y_continuous(
+    labels = scales::percent,
+    limits = c(0, 1)
+  ) +
+  scale_colour_manual(
+    values = c(
+      "Gay person" = "#009E73",
+      "Atheist" = "#0072B2",
+      "Racist" = "#D55E00"
+    )
+  ) +
+  labs(
+    x = NULL,
+    y = "Share saying the person should be allowed to teach",
+    colour = NULL,
+    title = "Support for allowing people to teach college has changed differently by group",
+    subtitle = "General Social Survey respondents, by decade"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+support_by_group_edu <- gss_clean |>
+  select(
+    degree_level, decade,
+    teacher_allow_gay,
+    teacher_allow_atheist,
+    teacher_allow_racist
+  ) |>
+  pivot_longer(
+    starts_with("teacher_allow_"),
+    names_to = "group",
+    values_to = "response"
+  ) |>
+  drop_na(degree_level, decade, response) |>
+  mutate(
+    group = recode(
+      group,
+      teacher_allow_gay = "Gay person",
+      teacher_allow_atheist = "Atheist",
+      teacher_allow_racist = "Racist"
+    ),
+    allowed = response == "yes, allowed to teach"
+  ) |>
+  group_by(degree_level, decade, group) |>
+  summarise(
+    support = mean(allowed),
+    n = n(),
+    .groups = "drop"
+  )
+
+ggplot(
+  support_by_group_edu,
+  aes(x = decade, y = support, colour = group, group = group)
+) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 2) +
+  facet_wrap(~ degree_level, ncol = 3) +
+  scale_y_continuous(
+    labels = scales::percent,
+    limits = c(0, 1)
+  ) +
+  scale_colour_manual(
+    values = c(
+      "Gay person" = "#009E73",
+      "Atheist" = "#0072B2",
+      "Racist" = "#D55E00"
+    )
+  ) +
+  labs(
+    x = NULL,
+    y = "Share saying the person should be allowed to teach",
+    colour = NULL,
+    title = "Support for allowing people to teach college",
+    subtitle = "By target group, education level, and decade"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+library(stringr)
+
+teacher_vars <- c(
+  "teacher_allow_gay",
+  "teacher_allow_atheist",
+  "teacher_allow_racist"
+)
+
+facet_n <- gss_clean |>
+  mutate(respondent_row = row_number()) |>
+  select(respondent_row, degree_level, all_of(teacher_vars)) |>
+  filter(
+    !is.na(degree_level),
+    if_any(all_of(teacher_vars), ~ !is.na(.x))
+  ) |>
+  group_by(degree_level) |>
+  summarise(n = n_distinct(respondent_row), .groups = "drop") |>
+  mutate(
+    facet_label = str_glue("{degree_level}\n(n = {scales::comma(n)})")
+  )
+
+facet_labels <- setNames(
+  facet_n$facet_label,
+  facet_n$degree_level
+)
+```
+
+
+```{r}
+ggplot(
+  support_by_group_edu,
+  aes(x = decade, y = support, colour = group, group = group)
+) +
+  geom_line(linewidth = 1) +
+  geom_point(size = 2) +
+  facet_wrap(
+    ~ degree_level,
+    ncol = 3,
+    labeller = as_labeller(facet_labels)
+  ) +
+  scale_y_continuous(
+    labels = scales::percent,
+    limits = c(0, 1)
+  ) +
+  scale_colour_manual(
+    values = c(
+      "Gay person" = "#009E73",
+      "Atheist" = "#0072B2",
+      "Racist" = "#D55E00"
+    )
+  ) +
+  labs(
+    x = NULL,
+    y = "Share saying allow to teach",
+    colour = NULL,
+    title = "Support for allowing people to teach college",
+    subtitle = "By target group, education level, and decade"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+gay_model <- glm(
+  allowed ~ degree_level + decade + age + sex + race + religion_intensity,
+  data = gay_data,
+  family = binomial()
+)
+```
+

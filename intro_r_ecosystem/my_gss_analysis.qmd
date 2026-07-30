@@ -1,0 +1,12 @@
+---
+title: My GSS Analysis
+date: today
+format: html
+---
+
+# Get the data
+
+```{r}
+
+```
+
